@@ -1,3 +1,5 @@
+import numpy as np
+
 def get_subset(n, pinc=0.2):
     """
     Generate a subset of n with at least 2 elements

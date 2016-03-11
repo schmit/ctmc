@@ -1,3 +1,8 @@
+import numpy as np
+import scipy as sp
+
+import scipy.linalg
+
 def create_uniform_rate_matrix(n):
     """
     Generate uniform choice transition rate matrix
@@ -5,6 +10,7 @@ def create_uniform_rate_matrix(n):
     Q = np.random.rand(n, n)
     Q = np.triu(Q - np.diag(np.diag(Q)))
     Q += np.tril(1-Q.T) - np.eye(n)
+    Q -= np.diag(np.sum(Q, 1))
     return Q
 
 def submatrix(A, indices):
@@ -17,7 +23,7 @@ def embedded_jump_chain(Q):
     """
     Compute the embedded jump chain for a continuous time Markov Chain
     """
-    P = np.divide(Q.T, np.sum(Q, 1)).T
+    P = np.divide(Q.T, -np.diag(Q)).T
     P -= np.diag(np.diag(P))
     return P
 
