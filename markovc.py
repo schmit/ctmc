@@ -4,25 +4,35 @@ import scipy as sp
 import scipy.linalg
 
 def create_rate_matrix_from_vector(x):
+    """
+    Create arbitrary rate matrix from a vector x
+    where the entries are the (i,j)th entries of the rate matrix
+    for i > j
+    """
+    # find size of Q
     m = len(x)
     n = int(1/2 + np.sqrt(1/4 + 2 * m)+0.5)
-    print(n)
 
+    # set top part of Q
     Q = np.zeros((n, n))
     Q[np.triu_indices(n, 1)] = x
-    Q += np.tril(1-Q.T) - np.eye(n)
+
+    # set bottom part of Q
+    Q += np.tril(1-Q.T, -1)
+
+    # fix diagonal
     Q -= np.diag(np.sum(Q, 1))
+
     return Q
 
 def create_uniform_rate_matrix(n):
     """
     Generate uniform choice transition rate matrix
     """
-    Q = np.random.rand(n, n)
-    Q = np.triu(Q - np.diag(np.diag(Q)))
-    Q += np.tril(1-Q.T) - np.eye(n)
-    Q -= np.diag(np.sum(Q, 1))
-    return Q
+    m = n * (n-1) / 2
+    x = np.random.rand(m)
+
+    return create_rate_matrix_from_vector(x)
 
 def submatrix(A, indices):
     """

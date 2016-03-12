@@ -46,7 +46,8 @@ def get_observation(Q, pinc=0.2):
     """
     n, _ = Q.shape
     subset = get_subset(n, pinc)
-    winner = pick_winner(Q, subset)
+    winner_idx = pick_winner(Q, subset)
+    winner = subset[winner_idx]
     return winner, subset
 
 def gen_data(Q, n=10, pinc=0.2):
