@@ -5,7 +5,7 @@ import scipy.linalg
 
 def create_uniform_rate_matrix(n):
     """
-    Generate uniform choice transition rate matrix
+    Generate uniform random choice transition rate matrix
     """
     Q = np.random.rand(n, n)
     Q = np.triu(Q - np.diag(np.diag(Q)))
