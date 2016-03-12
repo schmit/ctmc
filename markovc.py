@@ -72,7 +72,6 @@ def equi_deriv_ctmc(Q,P,pi,coord):
     dpi = np.linalg.pinv(np.eye(n) - P) @ (dP @ pi)
 
     v = -np.diag(Q)
-    print(v)
     numerator   = pi / v
     denominator = np.sum(numerator)
 
