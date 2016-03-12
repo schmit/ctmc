@@ -52,15 +52,15 @@ def equi_deriv_ctmc(Q,P,pi,coord):
 
     v = -np.diag(Q)
 
-    numerator   = pi ./ v
+    numerator   = pi / v
     denominator = np.sum(numerator)
 
-    dnum    = dpi ./ v
+    dnum    = dpi / v
     dnum[i] = (v[i] * dpi[i] + pi[i]) / v[i] ** 2
     dnum[j] = (v[j] * dpi[j] - pi[j]) / v[j] ** 2
     dden    = np.sum(dnum)
 
-    dqi = (denominator .* dnum - numerator .* dden) ./ denominator ** 2
+    dqi = (denominator * dnum - numerator * dden) / denominator ** 2
 
     return dqi
 
