@@ -72,7 +72,7 @@ def equi_deriv_ctmc(Q,P,pi,coord):
     dpi = np.linalg.pinv(np.eye(n) - P) @ (dP @ pi)
 
     v = -np.diag(Q)
-
+    print(v)
     numerator   = pi / v
     denominator = np.sum(numerator)
 
@@ -90,7 +90,7 @@ def equi_ctmc(Q):
     """
     Compute equilibrium for continuous time Markov Chain
     """
-    nu = np.sum(Q, 1)
+    nu = -np.diag(Q)
     P  = embedded_jump_chain(Q)
     pi = equi_dtmc(P)
     qi = pi / nu
