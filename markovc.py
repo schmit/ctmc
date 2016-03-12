@@ -3,6 +3,17 @@ import scipy as sp
 
 import scipy.linalg
 
+def create_rate_matrix_from_vector(x):
+    m = len(x)
+    n = int(1/2 + np.sqrt(1/4 + 2 * m)+0.5)
+    print(n)
+
+    Q = np.zeros((n, n))
+    Q[np.triu_indices(n, 1)] = x
+    Q += np.tril(1-Q.T) - np.eye(n)
+    Q -= np.diag(np.sum(Q, 1))
+    return Q
+
 def create_uniform_rate_matrix(n):
     """
     Generate uniform choice transition rate matrix
