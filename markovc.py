@@ -84,8 +84,9 @@ def transition_ctmc(Q, state):
     """
     n, _ = Q.shape
     qstate = Q[state, :]
-    rate = np.sum(qstate)
+    rate = -qstate[state]
     weights = qstate / rate
+    weights[state] = 0
     new_state = np.random.choice(n, p=weights)
     time = np.random.exponential(rate)
     return new_state, time
@@ -94,7 +95,7 @@ def transition_dtmc(P, state):
     """
     One step transition for discrete time markov chain
     """
-    n, _ = Q.shape
+    n, _ = P.shape
     pstate = P[state, :]
     new_state = np.random.choice(n , p=pstate)
     return new_state

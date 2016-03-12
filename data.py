@@ -1,4 +1,9 @@
+from collections import Counter
+import random
+
 import numpy as np
+
+from markovc import equi_ctmc, submatrix
 
 def get_subset(n, pinc=0.2):
     """
@@ -15,7 +20,7 @@ def get_subset(n, pinc=0.2):
     base_set = list(np.random.choice(n, 2, replace=False))
     additional_set = [x for x in range(n) if random.random() < pinc]
     total_set = set(base_set + additional_set)
-    return list(total_set)
+    return tuple(total_set)
 
 def pick_winner(Q, choice_set):
     """
@@ -56,4 +61,4 @@ def gen_data(Q, n=10, pinc=0.2):
     Returns:
         [(winner, choice set)]
     """
-    return [get_observation(Q, pinc) for _ in range(n)]
+    return Counter([get_observation(Q, pinc) for _ in range(n)])
