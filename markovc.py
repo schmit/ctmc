@@ -64,13 +64,13 @@ def equi_deriv_ctmc(Q, P, pi, coord):
 
     # Note: Should build this as a sparse matrix later
     dP = np.zeros((n,n))
-    dP[i,:] = -Q[i,:] / Q[i,i]
-    dP[j,:] =  Q[j,:] / Q[j,j]
-    dP[j,i] = -(Q[j,j] + P[j,i]) / Q[j,j] ** 2
-    dP[i,j] =  (Q[i,i] + P[i,j]) / Q[i,i] ** 2
-
+    dP[i,:] = -P[i,:] / Q[i,i]
+    dP[j,:] =  P[j,:] / Q[j,j]
+    dP[j,i] = -(Q[j,j] + Q[j,i]) / Q[j,j] ** 2
+    dP[i,j] =  (Q[i,i] + Q[i,j]) / Q[i,i] ** 2
+    dP[i,i] = 0
+    dP[j,j] = 0
     dpi = np.linalg.pinv(np.eye(n) - P.T) @ (dP.T @ pi)
-
     v = -np.diag(Q)
     numerator   = pi / v
     denominator = np.sum(numerator)
