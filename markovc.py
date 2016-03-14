@@ -55,21 +55,21 @@ def equi_dtmc(P):
     pi = np.real(sp.linalg.eig(P.T)[1])[:, 0]
     return pi / np.sum(pi)
 
-def equi_deriv_ctmc(Q,P,pi,coord):
+def equi_deriv_ctmc(Q, P, pi, coord):
     """
     Compute derivative of equilibrium for continuous time Markov chain
     """
-    i,j      = coord
-    n,_      = Q.shape
+    i, j = coord
+    n, _ = Q.shape
 
     # Note: Should build this as a sparse matrix later
     dP = np.zeros((n,n))
-    dP[:,i] = -Q[:,i] / Q[i,i]
-    dP[:,j] =  Q[:,j] / Q[j,j]
-    dP[i,j] = -(Q[j,j] + P[i,j]) / Q[j,j] ** 2
-    dP[j,i] =  (Q[i,i] + P[j,i]) / Q[i,i] ** 2
+    dP[i,:] = -Q[i,:] / Q[i,i]
+    dP[j,:] =  Q[j,:] / Q[j,j]
+    dP[j,i] = -(Q[j,j] + P[j,i]) / Q[j,j] ** 2
+    dP[i,j] =  (Q[i,i] + P[i,j]) / Q[i,i] ** 2
 
-    dpi = np.linalg.pinv(np.eye(n) - P) @ (dP @ pi)
+    dpi = np.linalg.pinv(np.eye(n) - P.T) @ (dP.T @ pi)
 
     v = -np.diag(Q)
     numerator   = pi / v
@@ -81,6 +81,27 @@ def equi_deriv_ctmc(Q,P,pi,coord):
     dden    = np.sum(dnum)
 
     dqi = (denominator * dnum - numerator * dden) / denominator ** 2
+
+#     # old code
+#     # Note: Should build this as a sparse matrix later
+#     dP = np.zeros((n,n))
+#     dP[:,i] = -Q[:,i] / Q[i,i]
+#     dP[:,j] =  Q[:,j] / Q[j,j]
+#     dP[i,j] = -(Q[j,j] + P[i,j]) / Q[j,j] ** 2
+#     dP[j,i] =  (Q[i,i] + P[j,i]) / Q[i,i] ** 2
+
+#     dpi = np.linalg.pinv(np.eye(n) - P) @ (dP @ pi)
+
+#     v = -np.diag(Q)
+#     numerator   = pi / v
+#     denominator = np.sum(numerator)
+
+#     dnum    = dpi / v
+#     dnum[i] = (v[i] * dpi[i] + pi[i]) / v[i] ** 2
+#     dnum[j] = (v[j] * dpi[j] - pi[j]) / v[j] ** 2
+#     dden    = np.sum(dnum)
+
+#     dqi = (denominator * dnum - numerator * dden) / denominator ** 2
 
     return dqi
 
