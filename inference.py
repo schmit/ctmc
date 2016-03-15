@@ -14,7 +14,6 @@ def nll_term(Q, winner, choices, count):
     Single term of log-likelihood of xhat
     """
 
-    # optimize; can we do this in one step
     Qs = submatrix(Q, choices)
 
     winner_idx = [idx for idx, val in enumerate(choices) if winner==val][0]
