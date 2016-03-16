@@ -14,11 +14,11 @@ def nll_term(Q, winner, choices, count):
     Single term of log-likelihood of xhat
     """
 
-    Qs = submatrix(Q, choices)
+    Qs = subchain(Q, choices)
 
     winner_idx = [idx for idx, val in enumerate(choices) if winner==val][0]
 
-    piS = equi_ctmc(Qs)[winner_idx]
-    return np.log(np.abs(piS))
+    qiS = equi_ctmc(Qs)[winner_idx]
+    return - count * np.log(np.abs(qiS))
 
 

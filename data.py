@@ -3,7 +3,7 @@ import random
 
 import numpy as np
 
-from markovc import equi_ctmc, submatrix
+from markovc import equi_ctmc, subchain
 
 def get_subset(n, pinc=0.2):
     """
@@ -31,7 +31,7 @@ def pick_winner(Q, choice_set):
         Q: Transition rate matrix
         states: choice set
     """
-    return np.random.choice(len(choice_set), p=equi_ctmc(submatrix(Q, choice_set)))
+    return np.random.choice(len(choice_set), p=equi_ctmc(subchain(Q, choice_set)))
 
 def get_observation(Q, pinc=0.2):
     """

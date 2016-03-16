@@ -38,7 +38,12 @@ def submatrix(A, indices):
     """
     Restrict A to a subset of indices
     """
-    return A[indices,:][:,indices]
+    return A[indices, :][:, indices]
+
+def subchain(Q, indices):
+    Qs = submatrix(Q, indices)
+    Qs -= np.diag(np.sum(Qs, 1))
+    return Qs
 
 def embedded_jump_chain(Q):
     """
@@ -58,6 +63,8 @@ def equi_dtmc(P):
 def equi_deriv_ctmc(Q, P, pi, coord):
     """
     Compute derivative of equilibrium for continuous time Markov chain
+    
+    note: takes relative indices
     """
     i, j = coord
     n, _ = Q.shape
@@ -82,28 +89,8 @@ def equi_deriv_ctmc(Q, P, pi, coord):
 
     dqi = (denominator * dnum - numerator * dden) / denominator ** 2
 
-#     # old code
-#     # Note: Should build this as a sparse matrix later
-#     dP = np.zeros((n,n))
-#     dP[:,i] = -Q[:,i] / Q[i,i]
-#     dP[:,j] =  Q[:,j] / Q[j,j]
-#     dP[i,j] = -(Q[j,j] + P[i,j]) / Q[j,j] ** 2
-#     dP[j,i] =  (Q[i,i] + P[j,i]) / Q[i,i] ** 2
-
-#     dpi = np.linalg.pinv(np.eye(n) - P) @ (dP @ pi)
-
-#     v = -np.diag(Q)
-#     numerator   = pi / v
-#     denominator = np.sum(numerator)
-
-#     dnum    = dpi / v
-#     dnum[i] = (v[i] * dpi[i] + pi[i]) / v[i] ** 2
-#     dnum[j] = (v[j] * dpi[j] - pi[j]) / v[j] ** 2
-#     dden    = np.sum(dnum)
-
-#     dqi = (denominator * dnum - numerator * dden) / denominator ** 2
-
-    return dqi
+    # note: there is a sign flip somewhere, corrected here :)
+    return -dqi
 
 
 def equi_ctmc(Q):
