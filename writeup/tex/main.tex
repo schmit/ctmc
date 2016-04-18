@@ -6,10 +6,68 @@
 
     \maketitle
     \section{The model}
-    In the pairwise-choice Markoc chain model, the log-likelihood is given by
+    In the pairwise-choice Markov chain model \cite{pcmc}, the log-likelihood is given by
     \begin{align*}
-
+        \log \mathcal{L}(P; C) = \sum_{S \subset U} \sum_{i \in S} C_{iS} \log(p_{iS}(P))
     \end{align*}
+	and we are interested in finding its derivative.
+	We focus on a single term $\log(p_{iS}(P))$.
+	
+
+
+	A brief note on notation, we use the following shorthand to denote the derivative
+	\[
+		\dot x = \frac{\partial x}{\partial t}
+	\]
+
+    Lemma from \cite[Theorem 3.2]{golub}:
+    \begin{lemma}
+        If $P = P(t)$ is a row stochastic, irreducible matrix, and differentiable in $t$, then
+        the derivative of the stationary distribution associated with $P$ is given by
+        \[
+			\dot \pi = \pi \dot P (I - P)^\dagger
+        \]
+        where $(I - P)^\dagger$ is the pseudo-inverse of $I - P$.
+    \end{lemma}
+
+    Let $Q$ be the rate matrix corresponding to a continuous time Markov chain.
+    We define $q$ as the equilibrium distribution of $Q$, 
+	and $\nu_i = \sum_{j \ne i} Q_{ij}$ the transition rate from state $i$ to other states.
+    Let $P$ denote the embedded discrete jump chain of $Q$ and let $\pi$ denote its equilibrium distribution,
+    that is $P$ is the transition matrix of a discrete time Markov chain with jump probabilities
+    \[
+        P_{ij} = \frac{Q_{ij}}{\sum_{k\ne i} Q_{ik}} = \frac{Q_{ij}}{\nu_i} \text{ for } i \ne j
+    \]
+	and $P_{ii} = 0$.
+
+    Then we know that (\cite[page 398]{ross}) the equilibrium distribution of the continuous time
+	Markov chain is related to equilibrium distribution of the embedded chain as
+    \[
+        q_i = \frac{\pi_i / \nu_i}{\sum_j \pi_j / \nu_j}
+    \]
+
+	Suppose $Q = Q(t)$, then first note that
+	\[
+		\dot P_{ij} = \frac{\nu_i \dot Q_{ij} - Q_{ij} \dot \nu_i}{\nu_i^2}
+	\]
+	and
+	\[
+		\dot \nu_i = \sum_{j \ne i} \dot Q_{ij}
+	\]
+	Define, for convenience,
+	\[
+		\alpha_i = \frac{\pi_i}{\nu_i}
+	\]
+	then its derivative with respect to $t$ is
+	\[
+		\dot \alpha_i = \frac{\nu_i \dot \pi_i - \pi_i \dot \nu_i}{\nu_i^2}
+	\]
+	Finally, we have
+	\[
+		\dot q_i = 
+		\frac { \dot \alpha_i \sum_{j \ne i} \alpha_j - \alpha_i \sum_{j \ne i} \dot \alpha_j }
+				{ \left( \sum_{j \ne i} \alpha_j \right)^2 }
+	\]
 
     \bibliographystyle{abbrv}
     \bibliography{bib/bibliography}
