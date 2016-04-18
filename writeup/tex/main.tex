@@ -12,7 +12,7 @@
     \end{align*}
 	and we are interested in finding its derivative.
 	We focus on a single term $\log(p_{iS}(P))$.
-	
+
 
 
 	A brief note on notation, we use the following shorthand to denote the derivative
@@ -31,7 +31,7 @@
     \end{lemma}
 
     Let $Q$ be the rate matrix corresponding to a continuous time Markov chain.
-    We define $q$ as the equilibrium distribution of $Q$, 
+    We define $q$ as the equilibrium distribution of $Q$,
 	and $\nu_i = \sum_{j \ne i} Q_{ij}$ the transition rate from state $i$ to other states.
     Let $P$ denote the embedded discrete jump chain of $Q$ and let $\pi$ denote its equilibrium distribution,
     that is $P$ is the transition matrix of a discrete time Markov chain with jump probabilities
@@ -64,9 +64,9 @@
 	\]
 	Finally, we have
 	\[
-		\dot q_i = 
-		\frac { \dot \alpha_i \sum_{j \ne i} \alpha_j - \alpha_i \sum_{j \ne i} \dot \alpha_j }
-				{ \left( \sum_{j \ne i} \alpha_j \right)^2 }
+		\dot q_i =
+		\frac { \dot \alpha_i \sum_{j} \alpha_j - \alpha_i \sum_{j} \dot \alpha_j }
+				{ \left( \sum_{j} \alpha_j \right)^2 }
 	\]
 
     \bibliographystyle{abbrv}
